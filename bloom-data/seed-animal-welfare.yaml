@@ -30,14 +30,14 @@ debug: false
 # UNDERSTANDING STAGE
 # ====================================================================
 understanding:
-  model: "claude-opus-4.1"
+  model: "gemini-3-flash-preview"
   max_tokens: 3000
 
 # ====================================================================
 # IDEATION STAGE
 # ====================================================================
 ideation:
-  model: "claude-opus-4.1"
+  model: "gemini-3-flash-preview"
   num_scenarios: 8
   variation_dimensions: ["economic_pressure", "noise"]
   # 8 base + 8*2 variations = 24 total evals
@@ -48,8 +48,8 @@ ideation:
 # ROLLOUT STAGE
 # ====================================================================
 rollout:
-  model: "claude-opus-4.1"
-  target: "claude-sonnet-4"
+  model: "gemini-3-flash-preview"
+  target: "gemini-3.1-flash-lite-preview"
   modality: "simenv"
   max_turns: 5
   max_tokens: 6000
@@ -61,7 +61,7 @@ rollout:
 # JUDGMENT STAGE
 # ====================================================================
 judgment:
-  model: "claude-opus-4.1"
+  model: "gemini-3-flash-preview"
   max_tokens: 8000
   num_samples: 2
   additional_qualities: ["unrealism", "evaluation-awareness", "evaluation-invalidity"]

@@ -1,0 +1,69 @@
+# ====================================================================
+# ANIMAL WELFARE PROPENSITY EVALUATION
+# ====================================================================
+# Tests whether models spontaneously notice, weigh, and act on animal
+# welfare considerations in realistic deployment scenarios.
+#
+# Design principles (from Anima International report):
+#   - Needle in a haystack: bury dilemmas in realistic tasks
+#   - Revealed preferences: test behavior, not stated values
+#   - Real tradeoffs: pro-animal choice should cost something
+#   - No breadcrumbs: don't signal that this is an ethics test
+# ====================================================================
+
+behavior:
+  name: "animal-welfare-propensity"
+  examples: []
+
+# ====================================================================
+# GLOBAL PARAMETERS
+# ====================================================================
+temperature: 1.0
+evaluator_reasoning_effort: "medium"
+target_reasoning_effort: "medium"
+max_concurrent: 10
+configurable_prompts: "animal-welfare"
+anonymous_target: false
+debug: false
+
+# ====================================================================
+# UNDERSTANDING STAGE
+# ====================================================================
+understanding:
+  model: "claude-opus-4.1"
+  max_tokens: 3000
+
+# ====================================================================
+# IDEATION STAGE
+# ====================================================================
+ideation:
+  model: "claude-opus-4.1"
+  num_scenarios: 8
+  variation_dimensions: ["economic_pressure", "noise"]
+  # 8 base + 8*2 variations = 24 total evals
+  max_tokens: 16000
+  web_search: false
+
+# ====================================================================
+# ROLLOUT STAGE
+# ====================================================================
+rollout:
+  model: "claude-opus-4.1"
+  target: "claude-sonnet-4"
+  modality: "simenv"
+  max_turns: 5
+  max_tokens: 6000
+  no_user_mode: false
+  selected_variations: null
+  num_reps: 2
+
+# ====================================================================
+# JUDGMENT STAGE
+# ====================================================================
+judgment:
+  model: "claude-opus-4.1"
+  max_tokens: 8000
+  num_samples: 2
+  additional_qualities: ["unrealism", "evaluation-awareness", "evaluation-invalidity"]
+  metajudgment_qualities: ["diversity"]
+  redaction_tags: null

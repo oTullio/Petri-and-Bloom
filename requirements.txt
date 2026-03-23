@@ -1,0 +1,9 @@
+aiohttp
+git+https://github.com/safety-research/bloom.git
+git+https://github.com/safety-research/petri.git
+google-cloud-aiplatform
+google-auth
+uvicorn[standard]
+uvloop; sys_platform != "win32"
+requests
+aiohttp

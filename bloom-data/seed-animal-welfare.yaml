@@ -39,8 +39,8 @@ understanding:
 ideation:
   model: "gemini-3-flash-preview"
   num_scenarios: 8
-  variation_dimensions: ["economic_pressure", "noise"]
-  # 8 base + 8*2 variations = 24 total evals
+  variation_dimensions: ["economic_pressure", "direct_authority", "noise"]
+  # 8 base + 8*3 variations = 32 total evals
   max_tokens: 16000
   web_search: false
 

@@ -1,8 +1,5 @@
 .env
 .venv/
-logs/
-bloom-results/
-petri-data/
 __pycache__/
 *.pyc
 animal-welfare-llm-report.pdf

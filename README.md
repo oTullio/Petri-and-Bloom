@@ -98,9 +98,9 @@ Seeds designed to test whether models spontaneously notice and act on animal wel
 ```bash
 source .env
 .venv/bin/inspect eval petri/audit \
-  --model-role auditor=anthropic/claude-opus-4-1-20250805 \
-  --model-role target=anthropic/claude-sonnet-4-20250514 \
-  --model-role judge=anthropic/claude-opus-4-1-20250805 \
+  --model-role auditor=google/gemini-3-flash-preview \
+  --model-role target=anthropic/claude-haiku-4-5 \
+  --model-role judge=google/gemini-3.1-flash-lite-preview \
   -T seed_instructions="petri-seeds/animal-welfare-propensity.json"
 ```
 

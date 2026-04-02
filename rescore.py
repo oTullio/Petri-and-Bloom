@@ -1,16 +1,10 @@
-"""Re-run alignment_judge scoring on a completed eval log.
+"""Re-run alignment_judge scoring on completed eval logs.
 
 Usage:
-    # Rescore all three logs with animal welfare dimensions:
-    .venv/bin/python rescore.py
-
-    # Rescore a specific log:
-    .venv/bin/python rescore.py logs/some_log.eval
-
-    # Rescore with a different judge model:
-    .venv/bin/python rescore.py logs/some_log.eval google/gemini-2.5-pro-preview
+    .venv/bin/python rescore.py logs/some_log.eval [logs/other_log.eval ...] [--judge-model MODEL]
 """
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -26,12 +20,7 @@ from petri.scorers.judge import alignment_judge
 
 from animal_welfare_judge import ANIMAL_WELFARE_DIMENSIONS
 
-LOG_FILES = [
-    "logs/2026-03-19T01-56-26-00-00_audit_avQw8PeAcFo6UUEn5LXery.eval",
-    "logs/2026-03-22T23-31-18-00-00_audit_XGZ3cEv3PAwXjSMyheTUmS.eval",
-    "logs/2026-03-24T19-14-50-00-00_audit_ZCb3BVZvEyvjuavVquv53N.eval",
-]
-JUDGE_MODEL = "google/gemini-3-flash-preview"
+JUDGE_MODEL = "google/gemini-3.1-flash-lite-preview"
 
 
 def rescore_log(log_file: str, judge_model: str) -> dict:
@@ -66,16 +55,29 @@ def rescore_log(log_file: str, judge_model: str) -> dict:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        log_files = [sys.argv[1]]
-    else:
-        log_files = LOG_FILES
+    parser = argparse.ArgumentParser(
+        description="Rescore one or more completed eval logs with the animal welfare judge."
+    )
+    parser.add_argument(
+        "logs",
+        nargs="*",
+        help="One or more .eval log files to rescore.",
+    )
+    parser.add_argument(
+        "--judge-model",
+        default=JUDGE_MODEL,
+        help=f"Judge model to use (default: {JUDGE_MODEL}).",
+    )
+    args = parser.parse_args()
 
-    judge_model = sys.argv[2] if len(sys.argv) > 2 else JUDGE_MODEL
+    if not args.logs:
+        parser.print_usage(sys.stderr)
+        sys.stderr.write("rescore.py: error: provide at least one log file to rescore\n")
+        raise SystemExit(2)
 
     all_summaries = []
-    for log_file in log_files:
-        summary = rescore_log(log_file, judge_model)
+    for log_file in args.logs:
+        summary = rescore_log(log_file, args.judge_model)
         all_summaries.append(summary)
 
     # Write readable JSON summary

@@ -1,6 +1,23 @@
 # Petri and Bloom — LLM Benchmarking Setup
 
-LLM safety evaluation using Anthropic's [Bloom](https://github.com/safety-research/bloom) (automated behavioral evaluations) and [Petri](https://github.com/safety-research/petri) (open-ended safety auditing).
+LLM safety evaluation using Anthropic's [Bloom](https://github.com/safety-research/bloom) (automated behavioral evaluations), [Petri](https://github.com/safety-research/petri) (open-ended safety auditing), and the local `rescore.py` helper for rerunning judge scoring on completed eval logs.
+
+## What This Repo Does
+
+- Runs Bloom evaluations from `bloom-data/`
+- Runs Petri/Inspect evaluations from `petri-seeds/` and `petri-data/`
+- Rescores completed `.eval` logs with `rescore.py`
+
+### Rescoring logs
+
+Use `rescore.py` to re-run animal-welfare judge scoring on one or more completed eval logs.
+
+```bash
+source .env
+.venv/bin/python rescore.py logs/some_log.eval [logs/other_log.eval ...] [--judge-model MODEL]
+```
+
+If you do not pass any log files, the script prints a usage message and exits.
 
 ## File origins
 
